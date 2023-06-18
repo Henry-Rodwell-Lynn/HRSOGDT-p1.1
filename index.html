@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sketch</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/pathseg@1.2.1/pathseg.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/poly-decomp@0.3.0/build/decomp.min.js"></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/opentype.js/0.6.5/opentype.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.min.js"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.14.2/matter.min.js"></script>
+  </head>
+
+  <body style="background-color: #000000">
+
+    <input
+      id="myInput"
+      type="file"
+      accept=".svg"
+      style="position: absolute; visibility: hidden"
+    />
+
+    <?xml version="1.0" encoding="UTF-8"?><svg
+      id="Layer_1"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 74.89 52.13"
+      style="display: none; position: absolute;"
+    >
+      <defs>
+        <style>
+          .cls-1 {
+            fill: #1d1d1b;
+          }
+        </style>
+      </defs>
+      <path
+        class="cls-1"
+        d="m37.88,22.54h-.43l-5.47,29.59H10.94L0,0h16.2l5.83,36.36h.43L29.59,0h16.35l7.63,36.22h.58L59.12,0h15.77l-11.31,52.13h-19.95l-5.76-29.59Z"
+      />
+    </svg>
+
+    <div id="gui"></div>
+
+    <div id="matter-container"></div>
+    <svg id="svg">
+      <path id="path" fill="none" stroke="#006ae3" stroke-width="5"></path>
+      <path
+        id="path2"
+        fill="none"
+        stroke="#006ae3"
+        stroke-linejoin="round"
+        stroke-linecap="round"
+      ></path>
+    </svg>
+    <script src="sketch.js"></script>
+  </body>
+</html>
