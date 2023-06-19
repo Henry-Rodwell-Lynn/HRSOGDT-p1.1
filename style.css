@@ -1,41 +1,126 @@
+
 html, body {
   margin: 0;
   padding: 0;
+  font-family: 'Lucida Grande', sans-serif;
+  font-size: small;
 }
+
 
 canvas {
   display: block;
+  
 }
 
-#matter-container {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-}
+
 
 #svg {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  width: 720px;
+  height: 720px;
   top: 0;
   left: 0;
-  z-index: 1;
   pointer-events: none;
+  z-index: 30;
 }
 
-
-#gui {
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  z-index: 20;
-}
 
 #layer_1 {
   display: none;
 }
 
-#cr-function {
-  border-left: 3px solid #e6a01d;
+.dg.main.taller-than-window .close-button {
+  border: ridge 1px 4facdb;
+  box-shadow: inset -1px 0px 0 1 rgba(0, 0, 0, 0);
+  -webkit-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.75);
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.75);
+  background: #aaa !important;
+  border-bottom: 1px solid #aaa !important;
+  width: 100%;
+}
+
+.dg.main .close-button {
+  border: ridge 1px 4facdb;
+  box-shadow: inset -1px 0px 0 1 rgba(0, 0, 0, 0);
+  -webkit-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.75);
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.75);
+  background: #aaa !important;
+  border-bottom: 1px solid #aaa !important;
+  width: 100%;
+}
+
+.dg.main .close-button:hover {
+  background: #bbb !important;
+  border-bottom: 1px solid #ccc !important;
+  width: 100%;
+}
+
+.dg {
+  color: #000000 !important;
+  text-shadow: none !important;
+
+}
+
+.dg.main::-webkit-scrollbar {
+  background: #ccc !important;
+}
+
+.dg.main::-webkit-scrollbar-thumb {
+  background: #ccc !important;
+  
+}
+
+.dg li:not(.folder) {
+  border: ridge 5px darkgrey;
+  box-shadow: inset -1px -1px 0 0 rgba(0, 0, 0, 0);
+  -webkit-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.75);
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.75);
+  background: #aaa !important;
+  border-bottom: 1px solid #ccc !important;
+  width: 100%;
+}
+
+.dg li.save-row .button {
+  text-shadow: none !important;
+}
+
+.dg li.title {
+  background: #ccc url(data:image/gif;base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlI+hKgFxoCgAOw==) 6px 10px no-repeat !important;
+}
+
+.dg .cr.function:hover,.dg .cr.boolean:hover {
+  background: #bbb !important;
+}
+
+.dg .c input[type=text] {
+  background: #eee !important;
+  color: #000000 !important;
+  font-weight: normal !important;
+  text-shadow: none !important;
+  font-size: small;
+}
+
+.dg .cr.number input[type=text] {
+  color: #000000 !important;
+}
+
+.dg .c input[type=text]:hover {
+  background: #fff !important;
+  color: #000000 !important;
+}
+
+.dg .c input[type=text]:focus {
+  background: #eee !important;
+  color: #000000 !important;
+}
+
+.dg .c .slider {
+  background: #eee !important;
+}
+
+.dg .c .slider:hover {
+  background: #fff !important;
 }

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sketch</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" href="https://use.typekit.net/lde3ufh.css" />
     <script src="https://cdn.jsdelivr.net/npm/pathseg@1.2.1/pathseg.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/poly-decomp@0.3.0/build/decomp.min.js"></script>
     <script
@@ -18,8 +19,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.14.2/matter.min.js"></script>
   </head>
 
-  <body style="background-color: #000000">
-
+  <body style="background-color: #cccccc">
     <input
       id="myInput"
       type="file"
@@ -27,11 +27,39 @@
       style="position: absolute; visibility: hidden"
     />
 
+    <div>
+      <a style=" color: rgb(0, 0, 0); position: absolute; margin-top: 1vh;
+      margin-left: 1vh; "
+    </div>
+
+    <div style="position: absolute; margin-left: 30px; bottom: 30px">
+      <a>HRSOGT 1.1</a><br />
+      <a>by Henry Rodwell</a>
+      <ul style="padding-left: 20%; list-style: square">
+        <li>
+          <a href="https://www.instagram.com/henryrodwelllynn/" 
+            >Github Repo</a
+          >
+        </li>
+
+        <li>
+          <a href="https://www.instagram.com/henryrodwelllynn/" 
+            >Instagram</a
+          >
+        </li>
+        <li>
+          <a href="https://henryrodwell.com" 
+            >Website</a
+          >
+        </li>
+      </ul>
+    </div>
+
     <?xml version="1.0" encoding="UTF-8"?><svg
       id="Layer_1"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 74.89 52.13"
-      style="display: none; position: absolute;"
+      style="display: none; position: absolute"
     >
       <defs>
         <style>
@@ -46,19 +74,78 @@
       />
     </svg>
 
-    <div id="gui"></div>
+    <div
+      id="gui"
+      style="
+        position: absolute;
+        top: 30px;
+        right: 60px;
+        z-index: 10;
+        background: #cccccc;
+      "
+    ></div>
 
-    <div id="matter-container"></div>
-    <svg id="svg">
-      <path id="path" fill="none" stroke="#006ae3" stroke-width="5"></path>
-      <path
-        id="path2"
-        fill="none"
-        stroke="#006ae3"
-        stroke-linejoin="round"
-        stroke-linecap="round"
-      ></path>
-    </svg>
+    <div
+      style="
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform: translate(-50%, -50%);
+      "
+    >
+      <div
+        id="matter-container"
+        style="
+          position: absolute;
+          width: 720px;
+          height: 720px;
+          border: ridge 5px darkgrey;
+          box-shadow: inset -1px -1px 0 0 rgba(0, 0, 0, 0);
+          -webkit-box-shadow: 5px 5px 5px 1px rgba(0, 0, 0, 0.75);
+          -moz-box-shadow: 5px 5px 5px 1px rgba(0, 0, 0, 0.75);
+          box-shadow: 3px 3px 5px 1px rgba(0, 0, 0, 0.75);
+          border: 1.4px solid white;
+          z-index: 100;
+        "
+      ></div>
+      <svg
+        id="svg"
+        style="
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transform: translate(-50%, -50%);
+          z-index: 10;
+        "
+      >
+        <path id="path" fill="none" stroke="#0000aa" stroke-width="5"></path>
+        <path
+          id="path2"
+          fill="none"
+          stroke="#0000aa"
+          stroke-linejoin="round"
+          stroke-linecap="round"
+        ></path>
+      </svg>
+
+      <div
+        id=""
+        style="
+          position: absolute;
+          width: 720px;
+          height: 720px;
+          background-color: #4facdb;
+          z-index: 5;
+        "
+      ></div>
+    </div>
+
     <script src="sketch.js"></script>
   </body>
 </html>

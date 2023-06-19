@@ -1,36 +1,33 @@
 const matterContainer = document.querySelector("#matter-container");
 
-document.getElementById('myInput').addEventListener('change', function(e) {
+document.getElementById("myInput").addEventListener("change", function (e) {
   const file = e.target.files[0];
   if (file) {
     const reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = function (e) {
       const contents = e.target.result;
-      // parse SVG
+
       const parser = new DOMParser();
       const svgDoc = parser.parseFromString(contents, "image/svg+xml");
-      // get all paths within the SVG
-      const paths = svgDoc.querySelectorAll('path');
-      if(paths.length > 0) {
-        // use the first path - you can adjust this logic as needed
+
+      const paths = svgDoc.querySelectorAll("path");
+      if (paths.length > 0) {
         const firstPath = paths[0];
-        // replace the SVG in the page
-        document.getElementById('Layer_1').innerHTML = firstPath.outerHTML;
-        // remove the old SVG body
+
+        document.getElementById("Layer_1").innerHTML = firstPath.outerHTML;
+
         if (svgBody) {
           Matter.Composite.remove(engine.world, svgBody);
         }
-        // create a new SVG body with the new path
+
         creatSvgBodies();
       } else {
-        console.error('No paths found in the uploaded SVG.');
+        console.error("No paths found in the uploaded SVG.");
       }
     };
     reader.readAsText(file);
   }
 });
-
-
 
 let svgBody;
 
@@ -38,70 +35,115 @@ var gui = new dat.GUI({ autoPlace: false });
 gui.domElement.id = "gui";
 document.getElementById("gui").appendChild(gui.domElement);
 
+gui.close();
+
 var config = {
   wireframes: false,
   visible: false,
   showAngleIndicator: false,
   Width: 5,
-  Colour: "#006ae3",
+  Colour: "#0000aa",
   verticies: 1,
   letterVisable: true,
   bounce: 0.9,
   scale: 1,
-  loadFile : function() { 
-    document.getElementById('myInput').click()
+  loadFile: function () {
+    document.getElementById("myInput").click();
   },
-  clearTrail: function() { 
+  clearTrail: function () {
     document.getElementById("path").setAttribute("d", "");
     document.getElementById("path2").setAttribute("d", "");
     gs = [];
   },
+  tgrav: 0,
+  svgX: 365,
+  svgY: 395,
 };
 
-var palette = {
-  C1: '#7cff00',
-  C2: '#004de7'
-};
+var importExportFolder = gui.addFolder("Import / Export");
 
 config.exportSvg = exportSvg;
 
-
-gui.add(config, 'loadFile').name("Upload SVG");
-gui.add(config, 'exportSvg').name("Export Trail");
+importExportFolder.add(config, "loadFile").name("Upload SVG");
+importExportFolder.add(config, "exportSvg").name("Export Trail");
+importExportFolder.open();
 
 var letterFolder = gui.addFolder("SVG");
 
-letterFolder.add(config, 'scale', 0.1, 3).onChange(function (value) {
-  config.scale = value;
+letterFolder
+  .add(config, "scale", 0.1, 3)
+  .onChange(function (value) {
+    config.scale = value;
 
-  if (svgBody) {
-    Matter.Composite.remove(engine.world, svgBody);
-  }
+    if (svgBody) {
+      Matter.Composite.remove(engine.world, svgBody);
+    }
 
-  creatSvgBodies();
-});
-letterFolder.add(config, 'verticies', 1, 100).onChange(function (value) {
-  config.verticies = value;
+    creatSvgBodies();
+  })
+  .name("Scale");
+letterFolder
+  .add(config, "svgX", 1, 1920)
+  .onChange(function (value) {
+    config.verticies = value;
 
-  // If svgBody exists, remove it from the world
-  if (svgBody) {
-    Matter.Composite.remove(engine.world, svgBody);
-  }
+    if (svgBody) {
+      Matter.Composite.remove(engine.world, svgBody);
+    }
 
-  // Recreate SVG bodies
-  creatSvgBodies();
-}).name("Shape Simplicity");
-letterFolder.add(config, 'letterVisable').onChange(function (value) {
-  svgBody.render.visible = value;
-}).name("Visibility");
+    creatSvgBodies();
+  })
+  .name("X Position");
+letterFolder
+  .add(config, "svgY", 1, 1920)
+  .onChange(function (value) {
+    config.verticies = value;
 
+    if (svgBody) {
+      Matter.Composite.remove(engine.world, svgBody);
+    }
 
+    creatSvgBodies();
+  })
+  .name("Y Position");
+letterFolder
+  .add(config, "svgY", 1, 1920)
+  .onChange(function (value) {
+    config.verticies = value;
+
+    if (svgBody) {
+      Matter.Composite.remove(engine.world, svgBody);
+    }
+
+    creatSvgBodies();
+  })
+  .name("Shape Simplicity");
+letterFolder
+  .add(config, "letterVisable")
+  .onChange(function (value) {
+    svgBody.render.visible = value;
+  })
+  .name("Visibility");
+
+letterFolder.open();
 
 var physicsFolder = gui.addFolder("Physics");
 
-physicsFolder.add(config, 'bounce', 0.1, 0.99, 0.01).onChange(function (value) {
-  circle.restitution = value;
-}).name("Bouncy-ness");
+physicsFolder
+  .add(config, "bounce", 0.1, 0.99, 0.01)
+  .onChange(function (value) {
+    circle.restitution = value;
+  })
+  .name("Bouncy-ness");
+
+physicsFolder
+  .add(config, "tgrav", 0, 1)
+  .onChange(function (value) {
+    engine.world.gravity.y = value;
+  })
+  .name("Gravity");
+
+physicsFolder.open();
 
 var trailFolder = gui.addFolder("Trail");
 
@@ -113,10 +155,9 @@ trailFolder.addColor(config, "Colour").onChange(function (value) {
   document.getElementById("path2").setAttribute("stroke", value);
 });
 
+trailFolder.add(config, "clearTrail").name("Clear Trail");
 
-
-trailFolder.add(config, 'clearTrail').name("Clear Trail");
-
+trailFolder.open();
 
 var visualsFolder = gui.addFolder("Debug");
 visualsFolder
@@ -138,9 +179,6 @@ visualsFolder
   })
   .name("Angle Indicator");
 
-
-
-// module aliases
 var Engine = Matter.Engine,
   Render = Matter.Render,
   Runner = Matter.Runner,
@@ -157,15 +195,13 @@ var Engine = Matter.Engine,
 
 var Thickness = 60;
 
-// create an engine
-
 var engine = Engine.create({
   positionIterations: 6,
   velocityIterations: 4,
 });
-engine.world.gravity.y = 0;
 
-// create a renderer
+engine.world.gravity.y = config.tgrav;
+
 var render = Render.create({
   element: matterContainer,
   engine: engine,
@@ -178,14 +214,17 @@ var render = Render.create({
   },
 });
 
-var circleOptions = {    
+var circleOptions = {
   friction: 0.3,
   firctionAir: 0.0001,
   restitution: config.bounce,
-  render: {fillStyle: '#f85712'}
+  render: { fillStyle: "#f85712" },
 };
 
-var circleStartPosition = { x: matterContainer.clientHeight / 8, y: matterContainer.clientHeight / 8};
+var circleStartPosition = {
+  x: matterContainer.clientHeight / 8,
+  y: matterContainer.clientHeight / 8,
+};
 
 var circle = Bodies.circle(
   circleStartPosition.x,
@@ -205,23 +244,22 @@ creatSvgBodies();
 function creatSvgBodies() {
   const path = document.querySelector(svg_path_s);
   let vertices = Svg.pathToVertices(path, config.verticies);
-  let scaleFactor = (matterContainer.clientWidth * svg_p) / svg_w * config.scale;
+  let scaleFactor =
+    ((matterContainer.clientWidth * svg_p) / svg_w) * config.scale;
   vertices = Vertices.scale(vertices, scaleFactor, scaleFactor);
   svgBody = Bodies.fromVertices(
-    matterContainer.clientWidth / 2 + (svg_w / config.scale),
-    matterContainer.clientHeight / 2,
+    config.svgX,
+    config.svgY,
     [vertices],
-    { 
+    {
       isStatic: true,
-      mass: 10,
-      render: 
-      { 
-        strokeStyle: "#ffffff", 
-        fillStyle: "#ffffff",
+      mass: 100,
+      render: {
+        strokeStyle: "#ffffff",
+        fillStyle: "#000",
         lineWidth: 0,
         visible: true,
-
-      }, 
+      },
     }
   );
   Composite.add(engine.world, svgBody);
@@ -261,7 +299,6 @@ var ceiling = Bodies.rectangle(
 
 Composite.add(engine.world, [ground, leftWall, rightWall, ceiling]);
 
-
 var mouse = Mouse.create(render.canvas),
   mouseConstraint = MouseConstraint.create(engine, {
     mouse: mouse,
@@ -275,13 +312,10 @@ var mouse = Mouse.create(render.canvas),
 
 Composite.add(engine.world, mouseConstraint);
 
-// run the renderer
 Render.run(render);
 
-// create runner
 var runner = Runner.create();
 
-// run the engine
 Runner.run(runner, engine);
 
 function handleResize(matterContainer) {
@@ -312,12 +346,12 @@ function handleResize(matterContainer) {
   );
   Matter.Body.setPosition(
     svgBody,
-    Matter.Vector.create(    matterContainer.clientWidth / 2 + (svg_w / config.scale),
-    matterContainer.clientHeight / 2,)
+    Matter.Vector.create(
+      config.svgX,
+      config.svgY
+    )
   );
 }
-
-
 
 function aP() {
   gs.push([circle.position.x, circle.position.y]);
@@ -341,11 +375,10 @@ function mP(p2, p1, f) {
 }
 function rP() {
   if (gs.length > 1) {
-    /*gs.shift();*/ pU();
+    pU();
   }
 }
 function pU() {
-  // p2.setAttribute("stroke-width",gs.length/np*4.5);
   var nP = gs.length > 1 ? pM : pM + gsZ;
   for (var L = gs.length - 1, j = 0; j < L; j++) {
     if (j != 0) {
@@ -359,44 +392,53 @@ function pU() {
   p2.setAttribute("d", nP);
 }
 
-Matter.Events.on(engine, "afterUpdate", function() {
-  if (circle.position.x < 0 || 
-      circle.position.y < 0 || 
-      circle.position.x > matterContainer.clientWidth || 
-      circle.position.y > matterContainer.clientHeight) 
-  {
+Matter.Events.on(engine, "afterUpdate", function () {
+  if (
+    circle.position.x < 0 ||
+    circle.position.y < 0 ||
+    circle.position.x > matterContainer.clientWidth ||
+    circle.position.y > matterContainer.clientHeight
+  ) {
     Matter.Body.setPosition(circle, circleStartPosition);
-    Matter.Body.setVelocity(circle, {x: 0, y: 0}); // reset velocity
+    Matter.Body.setVelocity(circle, { x: 0, y: 0 });
   }
 });
-
 
 window.addEventListener("resize", () => handleResize(matterContainer));
 
 function exportSvg() {
-  const path = document.getElementById('path');
-  const pathData = path.getAttribute('d');
-  
-  const svgElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  svgElement.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-  svgElement.setAttribute('viewBox', '0 0 ' + matterContainer.clientWidth + ' ' + matterContainer.clientHeight);
-  
-  const newPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-  newPath.setAttribute('d', pathData);
-  newPath.setAttribute('fill', 'none');
-  newPath.setAttribute('stroke', path.getAttribute('stroke'));
-  newPath.setAttribute('stroke-width', path.getAttribute('stroke-width'));
-  
+  const path = document.getElementById("path");
+  const pathData = path.getAttribute("d");
+
+  const svgElement = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "svg"
+  );
+  svgElement.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+  svgElement.setAttribute(
+    "viewBox",
+    "0 0 " + matterContainer.clientWidth + " " + matterContainer.clientHeight
+  );
+
+  const newPath = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "path"
+  );
+  newPath.setAttribute("d", pathData);
+  newPath.setAttribute("fill", "none");
+  newPath.setAttribute("stroke", path.getAttribute("stroke"));
+  newPath.setAttribute("stroke-width", path.getAttribute("stroke-width"));
+
   svgElement.appendChild(newPath);
-  
+
   const svgData = new XMLSerializer().serializeToString(svgElement);
-  const blob = new Blob([svgData], {type: 'image/svg+xml'});
+  const blob = new Blob([svgData], { type: "image/svg+xml" });
   const url = URL.createObjectURL(blob);
 
-  const link = document.createElement('a');
+  const link = document.createElement("a");
   link.href = url;
-  link.download = 'trail.svg';
+  link.download = "trail.svg";
   link.click();
-  
+
   URL.revokeObjectURL(url);
 }
