@@ -35,18 +35,18 @@ var gui = new dat.GUI({ autoPlace: false });
 gui.domElement.id = "gui";
 document.getElementById("gui").appendChild(gui.domElement);
 
-gui.close();
+// gui.close();
 
 var config = {
   wireframes: false,
-  visible: false,
+  visible: true,
   showAngleIndicator: false,
-  Width: 5,
+  Width: 10,
   Colour: "#0000aa",
   verticies: 1,
   letterVisable: true,
   bounce: 0.9,
-  scale: 1,
+  scale: 1.25,
   loadFile: function () {
     document.getElementById("myInput").click();
   },
@@ -56,8 +56,10 @@ var config = {
     gs = [];
   },
   tgrav: 0,
-  svgX: 365,
-  svgY: 395,
+  svgX: 360,
+  svgY: 320,
+  canvasX: 720,
+  canvasY: 720,
 };
 
 var importExportFolder = gui.addFolder("Import / Export");
@@ -71,7 +73,7 @@ importExportFolder.open();
 var letterFolder = gui.addFolder("SVG");
 
 letterFolder
-  .add(config, "scale", 0.1, 3)
+  .add(config, "scale", 0.1, 3, 0.01)
   .onChange(function (value) {
     config.scale = value;
 
@@ -107,7 +109,7 @@ letterFolder
   })
   .name("Y Position");
 letterFolder
-  .add(config, "svgY", 1, 1920)
+  .add(config, "verticies", 1, 100)
   .onChange(function (value) {
     config.verticies = value;
 
@@ -126,6 +128,8 @@ letterFolder
   .name("Visibility");
 
 letterFolder.open();
+
+
 
 var physicsFolder = gui.addFolder("Physics");
 
@@ -218,7 +222,10 @@ var circleOptions = {
   friction: 0.3,
   firctionAir: 0.0001,
   restitution: config.bounce,
-  render: { fillStyle: "#f85712" },
+  render: { fillStyle: "#fff",
+strokeStyle: '#000',
+lineWidth: 5
+},
 };
 
 var circleStartPosition = {
@@ -247,21 +254,16 @@ function creatSvgBodies() {
   let scaleFactor =
     ((matterContainer.clientWidth * svg_p) / svg_w) * config.scale;
   vertices = Vertices.scale(vertices, scaleFactor, scaleFactor);
-  svgBody = Bodies.fromVertices(
-    config.svgX,
-    config.svgY,
-    [vertices],
-    {
-      isStatic: true,
-      mass: 100,
-      render: {
-        strokeStyle: "#ffffff",
-        fillStyle: "#000",
-        lineWidth: 0,
-        visible: true,
-      },
-    }
-  );
+  svgBody = Bodies.fromVertices(config.svgX, config.svgY, [vertices], {
+    isStatic: true,
+    mass: 100,
+    render: {
+      strokeStyle: "#ffffff",
+      fillStyle: "#000",
+      lineWidth: 0,
+      visible: true,
+    },
+  });
   Composite.add(engine.world, svgBody);
 }
 
@@ -346,10 +348,7 @@ function handleResize(matterContainer) {
   );
   Matter.Body.setPosition(
     svgBody,
-    Matter.Vector.create(
-      config.svgX,
-      config.svgY
-    )
+    Matter.Vector.create(config.svgX, config.svgY)
   );
 }
 
