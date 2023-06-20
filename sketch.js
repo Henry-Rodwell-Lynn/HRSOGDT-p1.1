@@ -35,13 +35,14 @@ var gui = new dat.GUI({ autoPlace: false });
 gui.domElement.id = "gui";
 document.getElementById("gui").appendChild(gui.domElement);
 
-// gui.close();
+var guiSize;
+
 
 var config = {
   wireframes: false,
-  visible: true,
+  visible: false,
   showAngleIndicator: false,
-  Width: 10,
+  Width: 15,
   Colour: "#0000aa",
   verticies: 1,
   letterVisable: true,
